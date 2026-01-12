@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Kupon Undian Member Grosir</title>
+<style>
+body{
+  font-family: Arial;
+  background:#f5f5f5;
+  padding:20px;
+}
+.box{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  max-width:400px;
+  margin:auto;
+  box-shadow:0 0 10px #ccc;
+}
+input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  font-size:16px;
+}
+h3{
+  margin-top:15px;
+}
+button{
+  width:100%;
+  padding:12px;
+  background:#0a7cff;
+  color:white;
+  border:none;
+  border-radius:6px;
+  margin-top:15px;
+  font-size:16px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Kupon Undian Member</h2>
+
+<input id="kode" placeholder="Input Kode Customer" onkeyup="cari()">
+<h3 id="nama"></h3>
+
+<input id="nominal" placeholder="Input Nominal Belanja" onkeyup="hitung()">
+
+<h3>Kupon: <span id="kupon">0</span></h3>
+
+<button onclick="simpan()">Simpan</button>
+</div>
+
+<script>
+const API = "PASTE_API_URL_KAMU";
+
+function cari(){
+  let kode = document.getElementById("kode").value;
+  fetch(API + "?action=getCustomer&code=" + kode)
+  .then(r=>r.text())
+  .then(t=>{
+    document.getElementById("nama").innerText = t;
+  });
+}
+
+function hitung(){
+  let n = document.getElementById("nominal").value;
+  let k = Math.floor(n / 500000);
+  document.getElementById("kupon").innerText = k;
+}
+
+function simpan(){
+  let kode = document.getElementById("kode").value;
+  let nama = document.getElementById("nama").innerText;
+  let nominal = document.getElementById("nominal").value;
+
+  fetch(API + "?action=save&code="+kode+"&name="+nama+"&nominal="+nominal)
+  .then(r=>r.text())
+  .then(t=>{
+    alert("Kupon tersimpan!");
+    location.reload();
+  });
+}
+</script>
+
+</body>
+</html>
