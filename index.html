@@ -2,59 +2,94 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Kupon Undian Member Grosir</title>
+<title>Kupon Undian Grosir</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
-  font-family: Arial;
-  background:#f5f5f5;
-  padding:20px;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f2f4f7;
+  font-family:Arial, sans-serif;
 }
+
+.wrapper{
+  width:100%;
+  max-width:420px;
+  padding:15px;
+  text-align:center;
+}
+
+.header img{
+  width:80%;
+  max-width:260px;
+  margin-bottom:20px;
+}
+
 .box{
   background:white;
   padding:20px;
-  border-radius:10px;
-  max-width:400px;
-  margin:auto;
-  box-shadow:0 0 10px #ccc;
+  border-radius:15px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
 }
+
 input{
   width:100%;
-  padding:10px;
-  margin-top:10px;
+  padding:14px;
   font-size:16px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  margin-top:12px;
 }
+
 h3{
-  margin-top:15px;
+  margin:15px 0 5px;
 }
+
+#kupon{
+  font-size:36px;
+  color:#0a7cff;
+  font-weight:bold;
+}
+
 button{
   width:100%;
-  padding:12px;
+  padding:14px;
+  font-size:18px;
   background:#0a7cff;
-  color:white;
   border:none;
-  border-radius:6px;
+  border-radius:12px;
+  color:white;
   margin-top:15px;
-  font-size:16px;
 }
 </style>
 </head>
+
 <body>
 
-<div style="text-align:center; margin-bottom:15px;">
-  <img src="Kupon Undian Grosir.png" style="max-width:250px; width:80%;">
-</div>
+<div class="wrapper">
 
-<div class="box">
+  <div class="header">
+    <img src="Kupon Undian Grosir.png">
+  </div>
 
+  <div class="box">
 
-<input id="kode" placeholder="Input Kode Customer" onkeyup="cari()">
-<h3 id="nama"></h3>
+    <input id="kode" placeholder="Kode Customer" onkeyup="cari()">
+    <h3 id="nama"></h3>
 
-<input id="nominal" placeholder="Input Nominal Belanja" onkeyup="hitung()">
+    <input id="nominal" placeholder="Nominal Belanja" onkeyup="hitung()">
 
-<h3>Kupon: <span id="kupon">0</span></h3>
+    <h3>Jumlah Kupon</h3>
+    <div id="kupon">0</div>
 
-<button onclick="simpan()">Simpan</button>
+    <button onclick="simpan()">SIMPAN</button>
+
+  </div>
+
 </div>
 
 <script>
@@ -71,8 +106,7 @@ function cari(){
 
 function hitung(){
   let n = document.getElementById("nominal").value;
-  let k = Math.floor(n / 500000);
-  document.getElementById("kupon").innerText = k;
+  document.getElementById("kupon").innerText = Math.floor(n / 500000);
 }
 
 function simpan(){
@@ -82,7 +116,7 @@ function simpan(){
 
   fetch(API + "?action=save&code="+kode+"&name="+nama+"&nominal="+nominal)
   .then(r=>r.text())
-  .then(t=>{
+  .then(()=>{
     alert("Kupon tersimpan!");
     location.reload();
   });
